@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>user-api-contract</artifactId>
+    <packaging>jar</packaging>
+
+    <name>user-api-contract</name>
+    <description>User REST contract</description>
+
+    <parent>
+        <groupId>com.intuitdemo</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../parent/pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <swagger.codegen.version>3.0.0-rc1</swagger.codegen.version>
+        <springfox.version>2.7.0</springfox.version>
+        <servlet.version>3.1.0</servlet.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>3.3.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/v1/api.yml</inputSpec>
+                            <configOptions>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                            </configOptions>
+                            <language>spring</language>
+                            <modelPackage>com.intuitdemo.api.user.v1.model</modelPackage>
+                            <apiPackage>com.intuitdemo.api.user.v1</apiPackage>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>io.swagger.codegen.v3</groupId>-->
+<!--                <artifactId>swagger-codegen-maven-plugin</artifactId>-->
+<!--                <version>3.0.8</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>v1</id>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <inputSpec>${basedir}/src/main/resources/v1/swagger.yml</inputSpec>-->
+<!--                            <language>spring-mvc</language>-->
+<!--                            <configOptions>-->
+<!--                                <sourceFolder>src/gen/java</sourceFolder>-->
+<!--                                <library>j8-async</library>-->
+<!--                            </configOptions>-->
+<!--                            <modelPackage>com.intuitdemo.api.user.v1.model</modelPackage>-->
+<!--                            <apiPackage>com.intuitdemo.api.user.v1</apiPackage>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+        </plugins>
+    </build>
+</project>
