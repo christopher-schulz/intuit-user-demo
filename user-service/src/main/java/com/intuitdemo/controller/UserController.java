@@ -10,23 +10,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 public class UserController implements UsersApi {
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
+    private final ConversionService conversionService;
 
     @Autowired
-    private ConversionService conversionService;
+    public UserController(UserService userService, ConversionService conversionService) {
+        this.userService = userService;
+        this.conversionService = conversionService;
+    }
 
     @Override
     public ResponseEntity<User> createUser(@Valid NewUser newUser) {
@@ -37,13 +38,7 @@ public class UserController implements UsersApi {
 
     @Override
     public ResponseEntity<User> getCurrentUser() {
-        String username = Optional.ofNullable(SecurityContextHolder.getContext())
-                .map(SecurityContext::getAuthentication)
-                .map(Authentication::getPrincipal)
-                .filter(String.class::isInstance)
-                .map(String.class::cast)
-                .orElseThrow(() -> new SecurityException("No current user"));
-
+        String username = getUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         UserEntity entityUser = userService.findByUsername(username);
         return new ResponseEntity<>(conversionService.convert(entityUser, User.class), HttpStatus.OK);
     }
@@ -65,5 +60,13 @@ public class UserController implements UsersApi {
                 .collect(Collectors.toList());
         UserEntity user = userService.setGroups(userId, groupNameList);
         return new ResponseEntity<>(conversionService.convert(user, User.class), HttpStatus.OK);
+    }
+
+    private String getUsername(Object principal) {
+        if (principal instanceof String)
+            return (String) principal;
+        else if (principal instanceof org.springframework.security.core.userdetails.User)
+            return ((org.springframework.security.core.userdetails.User)principal).getUsername();
+        throw new SecurityException("No current user");
     }
 }

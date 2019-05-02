@@ -15,8 +15,12 @@ import org.springframework.stereotype.Component;
 public class NewUserApiToEntityConverter implements Converter<NewUser, UserEntity> {
     private final Logger logger = LoggerFactory.getLogger(NewUserApiToEntityConverter.class);
 
+    private final BCryptPasswordEncoder encoder;
+
     @Autowired
-    private BCryptPasswordEncoder encoder;
+    public NewUserApiToEntityConverter(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
     @Override
     public UserEntity convert(NewUser user) {

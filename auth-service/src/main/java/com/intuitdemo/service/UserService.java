@@ -17,9 +17,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
-	
+
+	private final UserDao userDao;
+
 	@Autowired
-	private UserDao userDao;
+	public UserService(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		UserEntity user = userDao.findByUsername(userId);

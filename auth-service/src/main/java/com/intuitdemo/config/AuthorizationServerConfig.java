@@ -18,18 +18,9 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter  {
 
-	static final String CLIEN_ID = "intuitdemo-client";
-	//static final String CLIENT_SECRET = "intuitdemo-secret";
-	static final String CLIENT_SECRET = "$2a$04$e/c1/RfsWuThaWFCrcCuJeoyvwCV0URN/6Pn9ZFlrtIWaU/vj/BfG";
-	static final String GRANT_TYPE_PASSWORD = "password";
-	static final String AUTHORIZATION_CODE = "authorization_code";
-	static final String REFRESH_TOKEN = "refresh_token";
-	static final String IMPLICIT = "implicit";
-	static final String SCOPE_READ = "read";
-	static final String SCOPE_WRITE = "write";
-	static final String TRUST = "trust";
-	static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
-	static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
+	private static final String CLIENT_SECRET = "$2a$04$e/c1/RfsWuThaWFCrcCuJeoyvwCV0URN/6Pn9ZFlrtIWaU/vj/BfG";
+	private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 60*60;
+	private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -53,10 +44,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 		configurer
 				.inMemory()
-				.withClient(CLIEN_ID)
+				.withClient("intuitdemo-client")
 				.secret(CLIENT_SECRET)
-				.authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, IMPLICIT)
-				.scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
+				.authorizedGrantTypes("password", "authorization_code", "refresh_token")
+				.scopes("read", "write", "trust")
 				.accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
 				.refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
 				.redirectUris("http://localhost:8081/");

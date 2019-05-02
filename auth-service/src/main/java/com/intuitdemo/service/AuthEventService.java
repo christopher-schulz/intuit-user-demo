@@ -27,9 +27,13 @@ import java.util.stream.Collectors;
 @Service
 public class AuthEventService {
 	private final Logger logger = LoggerFactory.getLogger(AuthEventService.class);
-	
+
+	private final AuthEventDao authEventDao;
+
 	@Autowired
-	private AuthEventDao authEventDao;
+	public AuthEventService(AuthEventDao authEventDao) {
+		this.authEventDao = authEventDao;
+	}
 
 	public void onSuccess(AuthenticationSuccessEvent authorizedEvent) {
 		logger.info("User Oauth2 login success" + authorizedEvent.getAuthentication().getPrincipal());

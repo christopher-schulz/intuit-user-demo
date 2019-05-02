@@ -9,18 +9,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 
 @Service
 public class UserService {
-	
-	@Autowired
-	private UserDao userDao;
+
+	private final UserDao userDao;
+	private final GroupDao groupDao;
 
 	@Autowired
-	private GroupDao groupDao;
+	public UserService(UserDao userDao, GroupDao groupDao) {
+		this.userDao = userDao;
+		this.groupDao = groupDao;
+	}
 
 	public List<UserEntity> findAll() {
 		List<UserEntity> list = new ArrayList<>();
