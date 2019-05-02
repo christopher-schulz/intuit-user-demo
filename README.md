@@ -1,28 +1,30 @@
-# Intuit Demo Serverless User Service
-An example of the intuit demo user service wtih Cognito and Lambdas.
+# Intuit Demo - Spring Boot
+An example of the intuit demo user service wtih Spring boot.
 
 ## Structure
-serverless.yml in the root directory describes the services and how they should be deployed.
-Tests are in the test directory.
+This is organized into a few projects
+- parent: contains the parent pom
+- auth-service: contains the implementaion of the auth service
+- user-api-contract: contains the openapi spec for the user service
+- user-service: contains the implementation of the user service
 
 ## Setup
 
 ### Install Prerequisites
-Install python >= 3.6.7
+Install java >= 1.8
 
-```bash
-# Install serverless (the deploy tool)
-npm install -g serverless
-```
 ### Setup Project
 ```bash
-# Install the project's node dependencies
-npm install
+# Generate source from openapi spec
+cd user-api-contract
+mvn clean install
+cd ..
 
-# Setup pipenv
-pip install pipenv
-pipenv install -d
+# Run Auth Service
+cd auth-service
+mvn spring-boot:run
 
-# Run tests
-pipenv run python setup.py test
+# Also, Run User Service
+cd user-service
+mvn spring-boot:run
 ```
