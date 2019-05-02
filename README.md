@@ -1,10 +1,10 @@
 # Intuit Demo - Spring Boot
-An example of the intuit demo user service wtih Spring boot.
+An example of the intuit demo user service with Spring boot.
 
 ## Structure
 This is organized into a few projects
 - parent: contains the parent pom
-- auth-service: contains the implementaion of the auth service
+- auth-service: contains the implementation of the auth service
 - user-api-contract: contains the openapi spec for the user service
 - user-service: contains the implementation of the user service
 

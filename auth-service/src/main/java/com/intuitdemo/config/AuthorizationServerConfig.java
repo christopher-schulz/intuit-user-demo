@@ -3,6 +3,7 @@ package com.intuitdemo.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 @Configuration
 @EnableAuthorizationServer
@@ -38,6 +40,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		converter.setSigningKey("as466gf");
 		return converter;
 	}
+
+//	@Bean
+//	public JwtAccessTokenConverter accessTokenConverter() {
+//		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//		KeyStoreKeyFactory keyStoreKeyFactory =
+//				new KeyStoreKeyFactory(new ClassPathResource("intuit-auth.jks"), "intuit-pass".toCharArray());
+//		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("intuit-auth"));
+//		return converter;
+//	}
 
 	@Bean
 	public TokenStore tokenStore() {

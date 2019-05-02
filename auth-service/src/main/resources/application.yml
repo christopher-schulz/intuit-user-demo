@@ -14,3 +14,8 @@ spring:
       driver-class-name: com.mysql.jdbc.Driver
 
 
+logging:
+  level:
+    root: INFO
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.jwt: DEBUG

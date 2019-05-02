@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +29,7 @@ public class UserController implements UsersApi {
     @Autowired
     private ConversionService conversionService;
 
+    @PreAuthorize("hasRole('USER_MANAGER')")
     @Override
     public ResponseEntity<User> createUser(@Valid NewUser newUser) {
         UserEntity newEntityUser = conversionService.convert(newUser, UserEntity.class);
@@ -48,6 +50,7 @@ public class UserController implements UsersApi {
         return new ResponseEntity<>(conversionService.convert(entityUser, User.class), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER_MANAGER')")
     @Override
     public ResponseEntity<List<User>> listUsers() {
         List<UserEntity> entityUsers = userService.findAll();
@@ -58,6 +61,7 @@ public class UserController implements UsersApi {
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER_MANAGER')")
     @Override
     public ResponseEntity<User> setGroups(Long userId, @Valid List<Group> group) {
         List<String> groupNameList = group.stream()
